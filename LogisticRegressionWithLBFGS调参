@@ -1,0 +1,40 @@
+算法：
+  org.apache.spark.mllib.classification.LogisticRegressionWithLBFGS
+
+配置参数：
+  val setModel = new LogisticRegressionWithLBFGS()
+  setModel.optimizer
+          .setGradient(new LogisticGradient(2))
+          .setNumIterations(100) 
+          .setRegParam(0.1)
+          .setConvergenceTol(0.01)
+          .setNumCorrections(1)
+          .setUpdater(new L1Updater)
+          
+参数含义：
+setGradient：
+  Set the gradient function (of the loss function of one single data example) to be used for L-BFGS.
+  传参： new LogisticGradient(numClasses：Int)
+        the number of possible outcomes for k classes classification problem in Multinomial Logistic Regression. 
+        By default, it is binary logistic regression so numClasses will be set to 2.
+
+setNumIterations：
+  Set the maximal number of iterations for L-BFGS. Default 100.
+
+setRegParam：
+  Set the regularization parameter. Default 0.0.
+
+setConvergenceTol：
+  Set the convergence tolerance of iterations for L-BFGS. Default 1E-6.
+  Smaller value will lead to higher accuracy with the cost of more iterations.
+  This value must be nonnegative. Lower convergence values are less tolerant and therefore generally cause more iterations to be run.
+
+setNumCorrections：
+  Set the number of corrections used in the LBFGS update. Default 10.
+  Values of numCorrections less than 3 are not recommended; large values of numCorrections will result in excessive computing time.
+  numCorrections must be positive, and values from 4 to 9 are generally recommended.
+
+setUpdater：
+  Set the updater function to actually perform a gradient step in a given direction.
+  The updater is responsible to perform the update from the regularization term as well, and therefore determines what kind or regularization is used, if any.
+  传参：SimpleUpdater L1Updater SquaredL2Updater
